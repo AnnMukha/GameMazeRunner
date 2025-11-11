@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./styles/globals.css";
+import StartPage from "./pages/StartPage";
+import GamePage from "./pages/GamePage";
+import ResultPage from "./pages/ResultPage";
 
-function App() {
+export default function App() {
+  const [currentPage, setCurrentPage] = useState("start"); // start | game | result
+
+  const handleStart = () => setCurrentPage("game");
+  const handleFinish = () => setCurrentPage("result");
+  const handleRestart = () => setCurrentPage("start");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {currentPage === "start" && <StartPage onStart={handleStart} />}
+      {currentPage === "game" && <GamePage onFinish={handleFinish} />}
+      {currentPage === "result" && <ResultPage onRestart={handleRestart} />}
+    </>
   );
 }
-
-export default App;
