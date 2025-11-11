@@ -1,34 +1,33 @@
 import Player from "./Player";
 
-export default function MazeGrid() {
-  const gridSize = 5; // 5x5 сітка
-  const totalCells = gridSize * gridSize;
-
+export default function MazeGrid({ maze, playerPosition }) {
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${gridSize}, 60px)`,
-        gridGap: "5px",
+        gridTemplateColumns: `repeat(${maze.length}, 60px)`,
+        gap: "5px",
         marginTop: "20px",
       }}
     >
-      {Array.from({ length: totalCells }).map((_, i) => (
-        <div
-          key={i}
-          style={{
-            width: "60px",
-            height: "60px",
-            backgroundColor: "#333",
-            borderRadius: "6px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {i === 0 && <Player />} {/* Герой у першій клітинці */}
-        </div>
-      ))}
+      {maze.map((row, rowIndex) =>
+        row.map((_, colIndex) => (
+          <div
+            key={`${rowIndex}-${colIndex}`}
+            style={{
+              width: "60px",
+              height: "60px",
+              backgroundColor: "#333",
+              borderRadius: "6px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {playerPosition.row === rowIndex && playerPosition.col === colIndex && <Player />}
+          </div>
+        ))
+      )}
     </div>
   );
 }
