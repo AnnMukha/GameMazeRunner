@@ -1,32 +1,33 @@
-import Player from "./Player";
-
 export default function MazeGrid({ maze, playerPosition }) {
+  if (!maze || maze.length === 0) return null;
+
   return (
     <div
+      className="maze"
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${maze.length}, 60px)`,
+        gridTemplateColumns: `repeat(${maze[0].length}, 50px)`,
+        gridTemplateRows: `repeat(${maze.length}, 50px)`,
+        justifyContent: "center",
+        margin: "20px auto",
         gap: "5px",
-        marginTop: "20px",
       }}
     >
       {maze.map((row, rowIndex) =>
-        row.map((_, colIndex) => (
-          <div
-            key={`${rowIndex}-${colIndex}`}
-            style={{
-              width: "60px",
-              height: "60px",
-              backgroundColor: "#333",
-              borderRadius: "6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {playerPosition.row === rowIndex && playerPosition.col === colIndex && <Player />}
-          </div>
-        ))
+        row.map((cell, colIndex) => {
+          const isPlayer =
+            rowIndex === playerPosition.y && colIndex === playerPosition.x;
+          const isFinish =
+            rowIndex === maze.length - 1 && colIndex === row.length - 1;
+          const isWall = cell === 1;
+
+          return (
+            <div
+              key={`${rowIndex}-${colIndex}`}
+              className={`cell ${isWall ? "wall" : ""} ${isPlayer ? "player" : ""} ${isFinish ? "finish" : ""}`}
+            />
+          );
+        })
       )}
     </div>
   );

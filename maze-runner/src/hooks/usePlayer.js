@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export function usePlayer(size = 5) {
-  const [position, setPosition] = useState({ row: 0, col: 0 }); // старт у верхньому лівому кутку
+export const usePlayer = (maze, onReachGoal, resetKey=0) => {
+  const size = maze.length;
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const moveUp = () => setPosition(p => ({ ...p, row: Math.max(0, p.row - 1) }));
-  const moveDown = () => setPosition(p => ({ ...p, row: Math.min(size - 1, p.row + 1) }));
-  const moveLeft = () => setPosition(p => ({ ...p, col: Math.max(0, p.col - 1) }));
-  const moveRight = () => setPosition(p => ({ ...p, col: Math.min(size - 1, p.col + 1) }));
+  useEffect(() => { setPosition({ x: 0, y: 0 }); }, [resetKey, size]);
 
-  return { position, moveUp, moveDown, moveLeft, moveRight };
-}
+  const move = (dx, dy) => {
+    setPosition(prev => {
+      const nx = Math.min(Math.max(prev.x + dx, 0), size - 1);
+      const ny = Math.min(Math.max(prev.y + dy, 0), size - 1);
+      if (maze[ny][nx] === 1) return prev; // стіна
+      if (nx === size - 1 && ny === size - 1) onReachGoal && onReachGoal();
+      return { x: nx, y: ny };
+    });
+  };
+
+  return {
+    position,
+    moveUp: () => move(0, -1),
+    moveDown: () => move(0, 1),
+    moveLeft: () => move(-1, 0),
+    moveRight: () => move(1, 0),
+  };
+};

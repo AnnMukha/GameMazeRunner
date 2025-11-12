@@ -1,32 +1,75 @@
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export function useGameState() {
+const GameStateContext = createContext();
+
+export const GameStateProvider = ({ children }) => {
+  const [screen, setScreen] = useState("menu"); // menu | game | final
   const [level, setLevel] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
+  const [difficulty, setDifficulty] = useState("easy");
+  const [records, setRecords] = useState([]);
 
+  // 🟢 Початок гри
   const startGame = () => {
-    setIsPlaying(true);
-    setIsFinished(false);
-  };
-
-  const finishGame = () => {
-    setIsPlaying(false);
-    setIsFinished(true);
-  };
-
-  const restartGame = () => {
     setLevel(1);
-    setIsPlaying(false);
-    setIsFinished(false);
+    setDifficulty("easy");
+    setRecords([]);
+    setScreen("game");
   };
 
-  return {
-    level,
-    isPlaying,
-    isFinished,
-    startGame,
-    finishGame,
-    restartGame,
+  // 🟢 Перехід на наступний рівень
+  const nextLevel = () => {
+    // Логіка зміни складності (наприклад, кожні 2 рівні)
+    const newLevel = level + 1;
+    let newDifficulty = difficulty;
+
+    if (newLevel % 2 === 1) {
+      if (difficulty === "easy") newDifficulty = "medium";
+      else if (difficulty === "medium") newDifficulty = "hard";
+    }
+
+    if (newLevel > 6) {
+      setScreen("final"); // завершення гри
+    } else {
+      setLevel(newLevel);
+      setDifficulty(newDifficulty);
+    }
   };
-}
+
+  // 🟢 Завершення рівня (запис часу)
+  const completeLevel = (time) => {
+    setRecords((prev) => [...prev, { level, difficulty, time }]);
+  };
+
+  // 🏠 Вихід у меню
+  const exitToMenu = () => {
+    setScreen("menu");
+  };
+
+  // 🔄 Повне очищення
+  const resetAll = () => {
+    setLevel(1);
+    setDifficulty("easy");
+    setRecords([]);
+    setScreen("menu");
+  };
+
+  return (
+    <GameStateContext.Provider
+      value={{
+        screen,
+        level,
+        difficulty,
+        records,
+        startGame,
+        nextLevel,
+        completeLevel,
+        exitToMenu,
+        resetAll,
+      }}
+    >
+      {children}
+    </GameStateContext.Provider>
+  );
+};
+
+export const useGameState = () => useContext(GameStateContext);
