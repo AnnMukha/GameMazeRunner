@@ -1,21 +1,27 @@
-import { useState } from "react";
-import "./styles/globals.css";
-import StartPage from "./pages/StartPage";
+import { useGameState } from "./hooks/useGameState";
+import MenuPage from "./pages/MenuPage";
 import GamePage from "./pages/GamePage";
 import ResultPage from "./pages/ResultPage";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("start"); // start | game | result
+  const { screen, exitToMenu, records, resetAll, startGame } = useGameState();
 
-  const handleStart = () => setCurrentPage("game");
-  const handleFinish = () => setCurrentPage("result");
-  const handleRestart = () => setCurrentPage("start");
+  // 🏠 Меню
+  if (screen === "menu") return <MenuPage />;
 
-  return (
-    <>
-      {currentPage === "start" && <StartPage onStart={handleStart} />}
-      {currentPage === "game" && <GamePage onFinish={handleFinish} />}
-      {currentPage === "result" && <ResultPage onRestart={handleRestart} />}
-    </>
-  );
+  // 🏁 Фінальна сторінка
+  if (screen === "final") {
+    return (
+      <ResultPage
+        onRestart={startGame}
+        onExit={exitToMenu}
+        records={records}
+        resetAll={resetAll}
+      />
+    );
+  }
+
+  // 🎮 Основна гра
+  return <GamePage onExit={exitToMenu} />;
 }
+
