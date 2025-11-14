@@ -1,20 +1,27 @@
+import ReactDOM from "react-dom";
+
 export default function GameOverModal({ onRestart, onNext, onExit, isFinal }) {
-  return (
+  return ReactDOM.createPortal(
     <>
-      <div className="modal-overlay" />
+      <div className="modal-overlay"></div>
+
       <div className="modal">
-        <h2>🎮 Гру завершено!</h2>
+        <h2>🎉 Рівень пройдено!</h2>
+
         {isFinal ? (
-          <p>Вітаємо! Це був останній рівень 🎉</p>
+          <p>Це був останній рівень! 🎯</p>
         ) : (
-          <p>Хочеш спробувати ще раз, перейти на наступний рівень чи вийти?</p>
+          <p>Готові перейти далі?</p>
         )}
+
         <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
           {!isFinal && <button onClick={onRestart}>🔄 Заново</button>}
-          {!isFinal && <button onClick={onNext}>➡️ Наступний рівень</button>}
-          <button onClick={onExit}>📚 Вийти</button>
+          {!isFinal && <button onClick={onNext}>➡️ Далі</button>}
+          <button onClick={onExit}>🏠 У меню</button>
         </div>
       </div>
-    </>
+    </>,
+    document.getElementById("portal-root")
   );
 }
+

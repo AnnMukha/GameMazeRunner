@@ -1,41 +1,44 @@
-import Header from "../components/Header";
-import Button from "../components/Button";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGameState } from "../hooks/useGameState";
-import { useGameSettings } from "../hooks/GameSettingsContext";
 
-export default function ResultPage({ onRestart }) {
-  const { records, resetAll, exitToMenu } = useGameState();
-  const { settings } = useGameSettings();
-  const isTimerMode = settings?.timerMode === "limit";
+export default function ResultPage() {
+  const { records } = useGameState();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   return (
     <div className="result-container">
-      <Header title="🏆 Гру завершено!" />
-      <div className="result-content">
-        <p>Вітаємо! Ти пройшла всі рівні 🎉</p>
+      <h1>🏆 Вітаємо! Гру завершено!</h1>
 
-        {!isTimerMode && records.length > 0 ? (
-          <>
-            <h3>📊 Попередні результати:</h3>
-            <ul style={{ listStyle: "none", padding: 0 }}>
+      {records.length > 0 && (
+        <div className="result-content">
+          <h2>📊 Динаміка проходження</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Рівень</th>
+                <th>Складність</th>
+                <th>Час</th>
+              </tr>
+            </thead>
+
+            <tbody>
               {records.map((r, i) => (
-                <li key={i}>
-                  • Рівень {r.level} ({r.difficulty}) — {r.time}
-                </li>
+                <tr key={i}>
+                  <td>{r.level}</td>
+                  <td>{r.difficulty}</td>
+                  <td>{r.time}</td>
+                </tr>
               ))}
-            </ul>
-          </>
-        ) : isTimerMode ? (
-          <p>⏳ Гра з обмеженням часу завершена!</p>
-        ) : null}
+            </tbody>
+          </table>
 
-        <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-          <Button text="⬅️ У меню" onClick={exitToMenu} />
-          <Button text="🗑️ Очистити все" onClick={resetAll} />
-          <Button text="🔁 Заново" onClick={onRestart} />
+          <button onClick={() => navigate(`/user/${id}/menu`)}>
+            🏠 У меню
+          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }
-

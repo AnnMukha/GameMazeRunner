@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const GameStateContext = createContext();
 
 export const GameStateProvider = ({ children }) => {
-  const [screen, setScreen] = useState("menu"); // menu | game | final
+  const [screen, setScreen] = useState("menu");
   const [level, setLevel] = useState(1);
   const [difficulty, setDifficulty] = useState("easy");
   const [records, setRecords] = useState([]);
@@ -16,41 +16,51 @@ export const GameStateProvider = ({ children }) => {
     setScreen("game");
   };
 
-  // 🟢 Перехід на наступний рівень
+  // 🟢 Перехід на наступний рівень (для adventure-режиму)
   const nextLevel = () => {
-    // Логіка зміни складності (наприклад, кожні 2 рівні)
     const newLevel = level + 1;
     let newDifficulty = difficulty;
 
+    // кожен непарний рівень — підвищення складності
     if (newLevel % 2 === 1) {
-      if (difficulty === "easy") newDifficulty = "medium";
-      else if (difficulty === "medium") newDifficulty = "hard";
+      if (newDifficulty === "easy") newDifficulty = "medium";
+      else if (newDifficulty === "medium") newDifficulty = "hard";
     }
+
+    setLevel(newLevel);
+    setDifficulty(newDifficulty);
 
     if (newLevel > 6) {
-      setScreen("final"); // завершення гри
-    } else {
-      setLevel(newLevel);
-      setDifficulty(newDifficulty);
+      setScreen("final");
     }
   };
 
-  // 🟢 Завершення рівня (запис часу)
-  const completeLevel = (time) => {
-    setRecords((prev) => [...prev, { level, difficulty, time }]);
-  };
+  // 🟢 Запис результату рівня
+  //   difficultyLabel — це ТА складність, з якою реально грали (activeDifficulty)
+  const completeLevel = (difficulty, time) => {
+  setRecords(prev => {
+    // 🔥 Перевіряємо, чи вже є запис цього рівня
+    const exists = prev.some(r => r.level === level);
 
-  // 🏠 Вихід у меню
-  const exitToMenu = () => {
-    setScreen("menu");
-  };
+    if (exists) return prev; // ❌ не додаємо дубль
 
-  // 🔄 Повне очищення
+    return [
+      ...prev,
+      { level, difficulty, time }
+    ];
+  });
+};
+
+
   const resetAll = () => {
     setLevel(1);
     setDifficulty("easy");
     setRecords([]);
     setScreen("menu");
+  };
+
+  const goToFinalResults = () => {
+    setScreen("final");
   };
 
   return (
@@ -63,8 +73,8 @@ export const GameStateProvider = ({ children }) => {
         startGame,
         nextLevel,
         completeLevel,
-        exitToMenu,
         resetAll,
+        goToFinalResults,
       }}
     >
       {children}
