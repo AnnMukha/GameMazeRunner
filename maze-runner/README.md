@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# Maze Runner — Lab 3
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Мета лабораторної:  
+Реалізувати стилізований React-застосунок з **роутингом між сторінками** та **стейт-менеджментом**, з використанням **динамічного id користувача**.
 
-## Available Scripts
+## 🔗 Роутинг
 
-In the project directory, you can run:
+Використано **React Router** з динамічними маршрутами виду:
 
-### `npm start`
+- `/user/:id/start` – стартова сторінка
+- `/user/:id/menu` – меню налаштувань гри
+- `/user/:id/game` – сторінка самої гри
+- `/user/:id/result` – сторінка результатів
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Особливості:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- id користувача зчитується через `useParams()`
+- переходи між сторінками робляться через `useNavigate()`
+- є дефолтний редірект з `/` на `/user/1/start`
+- налаштовано обробку невалідних маршрутів (редірект на старт)
 
-### `npm test`
+## 🎨 Стилізація
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Для стилізації використано **CSS-модулі**:
 
-### `npm run build`
+- окремі файли для кожної сторінки та компонента:
+  - `StartPage.module.css`
+  - `MenuPage.module.css`
+  - `GamePage.module.css`
+  - `ResultPage.module.css`
+  - `GameOverModal.module.css`
+  - `Button.module.css`
+- єдина неонова темна тема для всіх сторінок:
+  - градієнтний фон
+  - неонові рамки та тіні
+  - однаковий стиль кнопок (компонент `Button`)
+  - модальне вікно з затемненням фону через портали
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Завдяки CSS-модулям стилі інкапсульовані й не конфліктують між собою.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🧠 Стейт-менеджмент
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Глобальний стан гри
 
-### `npm run eject`
+Використано **Context API + кастомні хуки**:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- `GameStateProvider` (`useGameState`) – зберігає:
+  - поточний рівень
+  - активну складність
+  - масив результатів проходження рівнів
+  - функції:
+    - `completeLevel()` – збереження результату рівня
+    - `nextLevel()` – перехід на наступний рівень
+    - `resetAll()` – скидання стану гри
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Налаштування гри
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- `GameSettingsProvider` (`useGameSettings`) – зберігає:
+  - режим гри: **adventure / custom**
+  - обрану складність (для custom)
+  - режим таймера: **none / limit**
+  - ліміт часу (у секундах)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Налаштування змінюються на сторінці **MenuPage** та використовуються на **GamePage**.
 
-## Learn More
+### Додаткові кастомні хуки
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `useMaze` – генерація лабіринту
+- `usePlayer` – рух гравця по клітинках
+- `useTimer` – логіка таймера (відлік або зворотний)
+  
+Уся логіка гри побудована на React-стані без зовнішніх бібліотек.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+Таким чином, у роботі реалізовано:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- повноцінний **роутинг** з динамічним id користувача  
+- **стейт-менеджмент** через Context API + custom hooks  
+- повну **стилізацію** застосунку за допомогою CSS-модулів в єдиному візуальному стилі.
