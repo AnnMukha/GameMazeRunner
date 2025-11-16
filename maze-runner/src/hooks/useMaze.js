@@ -1,5 +1,18 @@
 import { useMemo } from "react";
 
+function mulberry32(a) {
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+
+    return (((t ^ (t >>> 14)) >>> 0) / 4294967296);
+  };
+}
+
+
 function pathExists(maze) {
   const n = maze.length;
   const q = [[0, 0]];
@@ -33,7 +46,9 @@ function pathExists(maze) {
   return false;
 }
 
-function generateMaze(size, difficulty) {
+function generateMaze(size, difficulty, seed) {
+  const random = mulberry32(seed); // 🔥 використовуємо seed
+
   const maze = Array.from({ length: size }, () => Array(size).fill(1));
   const inB = (x, y) => x >= 0 && y >= 0 && x < size && y < size;
   const dirs = [
@@ -42,7 +57,9 @@ function generateMaze(size, difficulty) {
     [0, 1],
     [0, -1],
   ];
-  const shuffle = (a) => a.sort(() => Math.random() - 0.5);
+
+  const shuffle = (a) =>
+    a.sort(() => random() - 0.5); // 🔥 seed впливає на порядок
 
   const carve = (x, y) => {
     maze[y][x] = 0;
@@ -68,15 +85,21 @@ function generateMaze(size, difficulty) {
 
   for (let y = 0; y < size; y++)
     for (let x = 0; x < size; x++) {
-      if (maze[y][x] === 0 && Math.random() < wallFactor) maze[y][x] = 1;
+      if (maze[y][x] === 0 && random() < wallFactor) {
+        maze[y][x] = 1; // 🔥 seed впливає на стіни
+      }
     }
 
-  if (!pathExists(maze)) return generateMaze(size, difficulty);
+  if (!pathExists(maze)) return generateMaze(size, difficulty, seed + 1);
   return maze;
 }
 
-// ✅ ESLint warning виправлено — seed видалено з залежностей
-export const useMaze = (size, difficulty, seed = 0) => {
-  const maze = useMemo(() => generateMaze(size, difficulty), [size, difficulty]);
+export const useMaze = (size, difficulty, seed) => {
+  const maze = useMemo(
+    () => generateMaze(size, difficulty, seed),
+    [size, difficulty, seed]
+  );
+
   return { maze };
 };
+

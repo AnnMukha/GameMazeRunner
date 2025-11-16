@@ -1,27 +1,31 @@
-import { useGameState } from "./hooks/useGameState";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { GameSettingsProvider } from "./hooks/GameSettingsContext";
+import { GameStateProvider } from "./hooks/useGameState";
+
+import StartPage from "./pages/StartPage";
 import MenuPage from "./pages/MenuPage";
 import GamePage from "./pages/GamePage";
 import ResultPage from "./pages/ResultPage";
 
 export default function App() {
-  const { screen, exitToMenu, records, resetAll, startGame } = useGameState();
+  return (
+    <GameSettingsProvider>
+      <GameStateProvider>
+        <Router>
+          <Routes>
+            {/* Редиректор з кореня */}
+            <Route path="/" element={<Navigate to="/user/1/start" />} />
 
-  // 🏠 Меню
-  if (screen === "menu") return <MenuPage />;
+            <Route path="/user/:id/start" element={<StartPage />} />
+            <Route path="/user/:id/menu" element={<MenuPage />} />
+            <Route path="/user/:id/game" element={<GamePage />} />
+            <Route path="/user/:id/result" element={<ResultPage />} />
 
-  // 🏁 Фінальна сторінка
-  if (screen === "final") {
-    return (
-      <ResultPage
-        onRestart={startGame}
-        onExit={exitToMenu}
-        records={records}
-        resetAll={resetAll}
-      />
-    );
-  }
-
-  // 🎮 Основна гра
-  return <GamePage onExit={exitToMenu} />;
+            {/* 404 */}
+            <Route path="*" element={<Navigate to="/user/1/start" />} />
+          </Routes>
+        </Router>
+      </GameStateProvider>
+    </GameSettingsProvider>
+  );
 }
-

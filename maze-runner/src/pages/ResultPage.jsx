@@ -1,41 +1,53 @@
-import Header from "../components/Header";
+import React from "react";
+import styles from "../styles/ResultPage.module.css";
 import Button from "../components/Button";
 import { useGameState } from "../hooks/useGameState";
-import { useGameSettings } from "../hooks/GameSettingsContext";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function ResultPage({ onRestart }) {
-  const { records, resetAll, exitToMenu } = useGameState();
-  const { settings } = useGameSettings();
-  const isTimerMode = settings?.timerMode === "limit";
+export default function ResultPage() {
+  const { results, resetAll } = useGameState();
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const goMenu = () => {
+    resetAll();
+    navigate(`/user/${id}/menu`);
+  };
+
+  // 🔥 ГАРАНТОВАНИЙ ЗАХИСТ — навіть якщо results undefined
+  const safeResults = Array.isArray(results) ? results : [];
 
   return (
-    <div className="result-container">
-      <Header title="🏆 Гру завершено!" />
-      <div className="result-content">
-        <p>Вітаємо! Ти пройшла всі рівні 🎉</p>
+    <div className={styles.wrapper}>
+      <h1 className={styles.title}>Результати гри</h1>
 
-        {!isTimerMode && records.length > 0 ? (
-          <>
-            <h3>📊 Попередні результати:</h3>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {records.map((r, i) => (
-                <li key={i}>
-                  • Рівень {r.level} ({r.difficulty}) — {r.time}
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : isTimerMode ? (
-          <p>⏳ Гра з обмеженням часу завершена!</p>
-        ) : null}
+      <div className={styles.resultBox}>
+        {safeResults.length === 0 ? (
+          <p className={styles.noResults}>Результатів поки немає</p>
+        ) : (
+          <div className={styles.list}>
+            {safeResults.map((item, index) => (
+              <div key={index} className={styles.row}>
+                <span className={styles.level}>Рівень {item.level}</span>
 
-        <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-          <Button text="⬅️ У меню" onClick={exitToMenu} />
-          <Button text="🗑️ Очистити все" onClick={resetAll} />
-          <Button text="🔁 Заново" onClick={onRestart} />
-        </div>
+                <span className={styles.difficulty}>
+                  {item.difficulty === "easy" && "Легко"}
+                  {item.difficulty === "medium" && "Середньо"}
+                  {item.difficulty === "hard" && "Складно"}
+                </span>
+
+                <span className={styles.time}>
+                  {item.time}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className={styles.buttonWrapper}>
+        <Button icon="🏠" text="У меню" onClick={goMenu} />
       </div>
     </div>
   );
 }
-

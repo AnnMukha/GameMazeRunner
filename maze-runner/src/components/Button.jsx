@@ -1,18 +1,10 @@
-export default function Button({ text, onClick }) {
+import styles from "../styles/Button.module.css";
+
+export default function Button({ icon, text, onClick }) {
   return (
-    <button
-      onClick={onClick}
-      style={{
-        backgroundColor: '#00bcd4',
-        color: 'white',
-        border: 'none',
-        padding: '12px 24px',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        marginTop: '20px'
-      }}
-    >
-      {text}
+    <button className={styles.btnRunic} onClick={onClick}>
+      {icon && <span className={styles.icon}>{icon}</span>}
+      {text && <span className={styles.text}>{text}</span>}
     </button>
   );
 }
