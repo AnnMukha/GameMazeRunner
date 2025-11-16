@@ -1,30 +1,27 @@
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../components/Button";
+import styles from "../styles/StartPage.module.css";
 
 export default function StartPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const handleStart = () => {
-    navigate(`/user/${id}/menu`);
-  };
-
   return (
-    <div className="start-screen">
-      <div className="start-screen__overlay" />
+    <div className={styles.startWrapper}>
+      <div className={styles.startContainer}>
+        <h1 className={styles.title}>MAZE RUNNER</h1>
 
-      <div className="start-screen__content">
-        <div className="start-logo">
-          <h1 className="start-logo__title">MAZE RUNNER</h1>
-          <p className="start-logo__subtitle">Мандрівник у лабіринті</p>
-        </div>
-
-        <p className="start-screen__text">
-          Вирушай у неоновий кам&apos;яний лабіринт.  
-          Знайди шлях крізь темряву, уникай пасток і встигни до порталу.
+        <p className={styles.subtitle}>
+          Вирушай у неоновий кам’яний лабіринт. Знайди шлях крізь темряву та  
+          відкрий портал світла.
         </p>
 
-        <Button text="▶ Start adventure" onClick={handleStart} />
+        <button
+          className={styles.startButton}
+          onClick={() => navigate(`/user/${id}/menu`)}
+        >
+          <span>▶</span> Start Adventure
+        </button>
       </div>
     </div>
   );

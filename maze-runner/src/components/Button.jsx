@@ -1,8 +1,10 @@
-export default function Button({ text, onClick }) {
+import styles from "../styles/Button.module.css";
+
+export default function Button({ icon, text, onClick }) {
   return (
-    <button className="btn-runic" onClick={onClick}>
-      <span className="btn-runic__text">{text}</span>
+    <button className={styles.btnRunic} onClick={onClick}>
+      {icon && <span className={styles.icon}>{icon}</span>}
+      {text && <span className={styles.text}>{text}</span>}
     </button>
   );
 }
-

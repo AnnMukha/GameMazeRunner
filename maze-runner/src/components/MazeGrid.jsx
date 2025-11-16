@@ -1,16 +1,14 @@
+import styles from "../styles/MazeGrid.module.css";
+
 export default function MazeGrid({ maze, playerPosition }) {
   if (!maze || maze.length === 0) return null;
 
   return (
     <div
-      className="maze"
+      className={styles.maze}
       style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${maze[0].length}, 50px)`,
-        gridTemplateRows: `repeat(${maze.length}, 50px)`,
-        justifyContent: "center",
-        margin: "20px auto",
-        gap: "5px",
+        gridTemplateColumns: `repeat(${maze[0].length}, 46px)`,
+        gridTemplateRows: `repeat(${maze.length}, 46px)`
       }}
     >
       {maze.map((row, rowIndex) =>
@@ -24,11 +22,20 @@ export default function MazeGrid({ maze, playerPosition }) {
           return (
             <div
               key={`${rowIndex}-${colIndex}`}
-              className={`cell ${isWall ? "wall" : ""} ${isPlayer ? "player" : ""} ${isFinish ? "finish" : ""}`}
-            />
+              className={[
+                styles.cell,
+                isWall ? styles.wall : "",
+                !isWall && !isPlayer && !isFinish ? styles.path : "",
+                isPlayer ? styles.player : "",
+                isFinish ? styles.finish : ""
+              ].join(" ")}
+            >
+              {isPlayer && <span className={styles.eye} />}
+            </div>
           );
         })
       )}
     </div>
   );
 }
+

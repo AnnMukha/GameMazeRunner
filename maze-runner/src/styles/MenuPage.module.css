@@ -1,0 +1,136 @@
+/* Wrapper – фон як на GamePage */
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding-top: 60px;
+
+  background:
+    radial-gradient(circle at 0% 0%, #1f4f72 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, #3b1b5e 0, transparent 50%),
+    radial-gradient(circle at 50% 120%, #1a8f7a 0, transparent 55%),
+    #050912;
+}
+
+/* Заголовок */
+.title {
+  font-size: 52px;
+  font-weight: 700;
+  color: #e4f7ff;
+  margin-bottom: 35px;
+
+  text-shadow:
+    0 0 22px rgba(140, 240, 255, 0.9),
+    0 0 40px rgba(60, 200, 255, 0.8);
+}
+
+/* Блок меню */
+.menuBox {
+  width: 520px;
+  padding: 45px 45px 55px;
+
+  border-radius: 28px;
+
+  background:
+    radial-gradient(circle at 0% 0%, rgba(120, 200, 255, 0.08), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(90, 255, 200, 0.08), transparent 60%),
+    rgba(4, 10, 22, 0.7);
+
+  box-shadow:
+    0 0 0 1px rgba(120, 200, 255, 0.35),
+    0 25px 60px rgba(0, 0, 0, 0.85),
+    0 0 40px rgba(90, 200, 255, 0.3);
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  backdrop-filter: blur(4px);
+}
+
+/* Підзаголовок */
+.subtitle {
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(220, 235, 255, 0.85);
+
+  text-shadow: 0 0 10px rgba(100, 160, 255, 0.25);
+}
+
+/* Поле */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 15px;
+  color: rgba(230, 245, 255, 0.95);
+}
+
+/* Селект */
+.field select {
+  width: 100%;
+  padding: 12px 14px;
+
+  font-size: 15px;
+  color: #e4f7ff;
+  background: rgba(0, 20, 40, 0.6);
+
+  border: 1px solid rgba(120, 200, 255, 0.4);
+  border-radius: 14px;
+  outline: none;
+
+  box-shadow:
+    inset 0 0 12px rgba(0, 0, 0, 0.35),
+    0 0 12px rgba(80, 180, 255, 0.25);
+
+  backdrop-filter: blur(3px);
+
+  transition: 0.25s ease;
+}
+
+.field select:focus {
+  border-color: rgba(150, 240, 255, 0.9);
+  box-shadow:
+    inset 0 0 14px rgba(0, 0, 0, 0.45),
+    0 0 18px rgba(100, 220, 255, 0.6);
+}
+
+/* Input */
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+
+  font-size: 15px;
+  color: #e4f7ff;
+  background: rgba(0, 20, 40, 0.6);
+
+  border: 1px solid rgba(120, 200, 255, 0.4);
+  border-radius: 14px;
+  outline: none;
+
+  box-shadow:
+    inset 0 0 12px rgba(0, 0, 0, 0.35),
+    0 0 12px rgba(80, 180, 255, 0.25);
+
+  transition: 0.25s ease;
+}
+
+.field input:focus {
+  border-color: rgba(150, 240, 255, 0.9);
+  box-shadow:
+    inset 0 0 14px rgba(0, 0, 0, 0.45),
+    0 0 18px rgba(100, 220, 255, 0.6);
+}
+
+/* Кнопка */
+.menuBox button {
+  margin-top: 10px;
+  align-self: center;
+}

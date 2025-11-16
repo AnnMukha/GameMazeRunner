@@ -1,0 +1,114 @@
+/* ===========================
+   🌌 ГОЛОВНИЙ КОНТЕЙНЕР
+   =========================== */
+.gameWrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding: 60px 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    radial-gradient(circle at 0% 0%, rgba(31, 79, 114, 0.6), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(59, 27, 94, 0.55), transparent 55%),
+    radial-gradient(circle at 50% 120%, rgba(26, 143, 122, 0.45), transparent 65%),
+    #050912;
+}
+
+/* ===========================
+   🕒 ТАЙМЕР (збільшено)
+   =========================== */
+.timer p {
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: 600;
+
+  color: #e5faff;
+  text-shadow:
+    0 0 16px rgba(155, 248, 255, 0.7),
+    0 0 26px rgba(125, 244, 255, 0.55);
+}
+
+/* ===========================
+   🪨 ПАНЕЛЬ ЛАБІРИНТУ (збільшено)
+   =========================== */
+.mazeBox {
+  margin-top: 32px;
+  padding: 40px 50px;
+  border-radius: 34px;
+
+  background:
+    radial-gradient(circle at 0% 0%, rgba(90, 200, 255, 0.09), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(80, 250, 180, 0.1), transparent 60%),
+    rgba(3, 7, 18, 0.96);
+
+  box-shadow:
+    0 0 0 1px rgba(132, 220, 255, 0.4),
+    0 35px 85px rgba(0, 0, 0, 0.9),
+    0 0 65px rgba(56, 189, 248, 0.45);
+}
+
+
+/* ===========================
+   🎮 КОНТРОЛ НАВІГАЦІЇ (збільшено)
+   =========================== */
+.controls {
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.middleRow {
+  display: flex;
+  gap: 22px;
+}
+
+
+/* ===========================
+   💀 FAIL МОДАЛКА (збільшено)
+   =========================== */
+.failModal {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 86, 102, 0.2), transparent 60%),
+    rgba(9, 9, 11, 0.96);
+
+  padding: 40px 55px;
+  border-radius: 32px;
+  text-align: center;
+
+  width: 480px;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 125, 140, 0.6),
+    0 35px 85px rgba(0, 0, 0, 0.95),
+    0 0 60px rgba(255, 94, 94, 0.6);
+
+  color: #fff3f3;
+
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.failModal h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #ffadad;
+
+  text-shadow:
+    0 0 20px rgba(255, 140, 140, 0.9),
+    0 0 35px rgba(255, 80, 80, 0.75);
+}
+
+.failModal p {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #ffe6e6;
+}
+

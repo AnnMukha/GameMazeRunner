@@ -1,27 +1,44 @@
-import ReactDOM from "react-dom";
+import React from "react";
+import styles from "../styles/GameOverModal.module.css";
+import Button from "./Button";
 
-export default function GameOverModal({ onRestart, onNext, onExit, isFinal }) {
-  return ReactDOM.createPortal(
-    <>
-      <div className="modal-overlay"></div>
+export default function GameOverModal({
+  isFinal,
+  timerMode,
+  onRestart,
+  onNext,
+  onMenu,
+  onResults
+}) {
+  return (
+    <div className={styles.modalBox}>
+      <h2 className={styles.title}>
+        {isFinal ? "🏆 Рівень пройдено!" : "🎉 Рівень пройдено!"}
+      </h2>
 
-      <div className="modal">
-        <h2>🎉 Рівень пройдено!</h2>
+      <p className={styles.subtitle}>
+        {isFinal ? "Це був фінальний рівень!" : "Готові перейти далі?"}
+      </p>
 
-        {isFinal ? (
-          <p>Це був останній рівень! 🎯</p>
-        ) : (
-          <p>Готові перейти далі?</p>
+      <div className={styles.buttons}>
+        
+        {/* Якщо НЕ фінал — показуємо кнопку Restart */}
+        {!isFinal && timerMode !== "limit" && (
+          <Button icon="🔁" text="Заново" onClick={onRestart} />
         )}
 
-        <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
-          {!isFinal && <button onClick={onRestart}>🔄 Заново</button>}
-          {!isFinal && <button onClick={onNext}>➡️ Далі</button>}
-          <button onClick={onExit}>🏠 У меню</button>
-        </div>
+        {/* Якщо НЕ фінал — кнопка Next */}
+        {!isFinal && (
+          <Button icon="➡️" text="Далі" onClick={onNext} />
+        )}
+
+        {/* Якщо фінал — ТІЛЬКИ перехід до результатів */}
+        {isFinal ? (
+          <Button icon="🏆" text="До результатів" onClick={onResults} />
+        ) : (
+          <Button icon="🏠" text="У меню" onClick={onMenu} />
+        )}
       </div>
-    </>,
-    document.getElementById("portal-root")
+    </div>
   );
 }
-
