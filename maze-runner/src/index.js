@@ -1,17 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { GameSettingsProvider } from "./hooks/GameSettingsContext";
-import { GameStateProvider } from "./hooks/useGameState";
+
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
 import "./styles/globals.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
-    <GameSettingsProvider>
-      <GameStateProvider>
-        <App />
-      </GameStateProvider>
-    </GameSettingsProvider>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
+

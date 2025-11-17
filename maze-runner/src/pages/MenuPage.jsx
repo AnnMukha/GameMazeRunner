@@ -4,11 +4,15 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import styles from "../styles/MenuPage.module.css";
 import Button from "../components/Button";
-import { useGameSettings } from "../hooks/GameSettingsContext";
 import Select from "../components/ui/Select";
 
+import { useSelector, useDispatch } from "react-redux";
+import { selectSettings, updateSettings } from "../store/gameSettingsSlice";
+
 export default function MenuPage() {
-  const { updateSettings, settings } = useGameSettings();
+  const settings = useSelector(selectSettings);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -17,13 +21,15 @@ export default function MenuPage() {
   const [timerMode, setTimerMode] = useState(settings.timerMode);
   const [timeLimit, setTimeLimit] = useState(settings.timeLimit);
 
-  const startGame = () => {
-    updateSettings({
-      mode,
-      difficulty,
-      timerMode,
-      timeLimit: Number(timeLimit),
-    });
+  const startGameHandler = () => {
+    dispatch(
+      updateSettings({
+        mode,
+        difficulty,
+        timerMode,
+        timeLimit: Number(timeLimit),
+      })
+    );
 
     navigate(`/user/${id}/game`);
   };
@@ -37,7 +43,6 @@ export default function MenuPage() {
           Обери параметри гри та почни пригоди у світі неонових лабіринтів!
         </p>
 
-        {/* Режим гри */}
         <Select
           label="Режим гри:"
           value={mode}
@@ -47,7 +52,6 @@ export default function MenuPage() {
           <option value="custom">Користувацький</option>
         </Select>
 
-        {/* Складність лише для custom-режиму */}
         {mode === "custom" && (
           <Select
             label="Складність:"
@@ -60,7 +64,6 @@ export default function MenuPage() {
           </Select>
         )}
 
-        {/* Режим часу */}
         <Select
           label="Режим часу:"
           value={timerMode}
@@ -70,7 +73,6 @@ export default function MenuPage() {
           <option value="limit">З обмеженням</option>
         </Select>
 
-        {/* Ліміт часу лише при режимі limit */}
         {timerMode === "limit" && (
           <div className={styles.field}>
             <label>Ліміт часу (секунди):</label>
@@ -84,8 +86,9 @@ export default function MenuPage() {
           </div>
         )}
 
-        <Button icon="🎮" text="Почати гру" onClick={startGame} />
+        <Button icon="🎮" text="Почати гру" onClick={startGameHandler} />
       </div>
     </div>
   );
 }
+

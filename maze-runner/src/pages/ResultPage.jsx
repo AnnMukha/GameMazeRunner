@@ -2,20 +2,23 @@
 import React from "react";
 import styles from "../styles/ResultPage.module.css";
 import Button from "../components/Button";
-import { useGameState } from "../hooks/useGameState";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { useSelector, useDispatch } from "react-redux";
+import { selectGameState, resetAll } from "../store/gameStateSlice";
+
 export default function ResultPage() {
-  const { records, resetAll } = useGameState();
+  const { records } = useSelector(selectGameState);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const { id } = useParams();
 
   const goMenu = () => {
-    resetAll();
+    dispatch(resetAll());
     navigate(`/user/${id}/menu`);
   };
 
-  // Гарантуємо, що records завжди масив
   const safeRecords = Array.isArray(records) ? records : [];
 
   return (
