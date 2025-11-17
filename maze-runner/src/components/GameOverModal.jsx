@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "../styles/GameOverModal.module.css";
+import Modal from "./ui/Modal";
 import Button from "./Button";
+import styles from "../styles/GameOverModal.module.css";
 
 export default function GameOverModal({
   isFinal,
@@ -11,34 +11,31 @@ export default function GameOverModal({
   onResults
 }) {
   return (
-    <div className={styles.modalBox}>
-      <h2 className={styles.title}>
-        {isFinal ? "🏆 Рівень пройдено!" : "🎉 Рівень пройдено!"}
-      </h2>
+    <Modal onClose={onMenu}>
+      <div className={styles.modalBox}>
+        <h2 className={styles.title}>
+          {isFinal ? "🏆 Рівень пройдено!" : "🎉 Рівень пройдено!"}
+        </h2>
 
-      <p className={styles.subtitle}>
-        {isFinal ? "Це був фінальний рівень!" : "Готові перейти далі?"}
-      </p>
+        <p className={styles.subtitle}>
+          {isFinal ? "Це був фінальний рівень!" : "Готові перейти далі?"}
+        </p>
 
-      <div className={styles.buttons}>
-        
-        {/* Якщо НЕ фінал — показуємо кнопку Restart */}
-        {!isFinal && timerMode !== "limit" && (
-          <Button icon="🔁" text="Заново" onClick={onRestart} />
-        )}
-
-        {/* Якщо НЕ фінал — кнопка Next */}
-        {!isFinal && (
-          <Button icon="➡️" text="Далі" onClick={onNext} />
-        )}
-
-        {/* Якщо фінал — ТІЛЬКИ перехід до результатів */}
-        {isFinal ? (
-          <Button icon="🏆" text="До результатів" onClick={onResults} />
-        ) : (
-          <Button icon="🏠" text="У меню" onClick={onMenu} />
-        )}
+        <div className={styles.buttons}>
+          {!isFinal && timerMode !== "limit" && (
+            <Button icon="🔁" text="Заново" onClick={onRestart} />
+          )}
+          {!isFinal && (
+            <Button icon="➡️" text="Далі" onClick={onNext} />
+          )}
+          {isFinal ? (
+            <Button icon="🏆" text="До результатів" onClick={onResults} />
+          ) : (
+            <Button icon="🏠" text="У меню" onClick={onMenu} />
+          )}
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 }
+

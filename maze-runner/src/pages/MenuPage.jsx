@@ -1,11 +1,18 @@
+// src/pages/MenuPage.jsx
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import styles from "../styles/MenuPage.module.css";
 import Button from "../components/Button";
-import { useGameSettings } from "../hooks/GameSettingsContext";
+import Select from "../components/ui/Select";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectSettings, updateSettings } from "../store/gameSettingsSlice";
 
 export default function MenuPage() {
-  const { updateSettings, settings } = useGameSettings();
+  const settings = useSelector(selectSettings);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -14,13 +21,15 @@ export default function MenuPage() {
   const [timerMode, setTimerMode] = useState(settings.timerMode);
   const [timeLimit, setTimeLimit] = useState(settings.timeLimit);
 
-  const startGame = () => {
-    updateSettings({
-      mode,
-      difficulty,
-      timerMode,
-      timeLimit: Number(timeLimit),
-    });
+  const startGameHandler = () => {
+    dispatch(
+      updateSettings({
+        mode,
+        difficulty,
+        timerMode,
+        timeLimit: Number(timeLimit),
+      })
+    );
 
     navigate(`/user/${id}/game`);
   };
@@ -34,38 +43,35 @@ export default function MenuPage() {
           Обери параметри гри та почни пригоди у світі неонових лабіринтів!
         </p>
 
-        <div className={styles.field}>
-          <label>Режим гри:</label>
-          <select value={mode} onChange={(e) => setMode(e.target.value)}>
-            <option value="adventure">Пригодницький</option>
-            <option value="custom">Користувацький</option>
-          </select>
-        </div>
+        <Select
+          label="Режим гри:"
+          value={mode}
+          onChange={(e) => setMode(e.target.value)}
+        >
+          <option value="adventure">Пригодницький</option>
+          <option value="custom">Користувацький</option>
+        </Select>
 
         {mode === "custom" && (
-          <div className={styles.field}>
-            <label>Складність:</label>
-            <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-            >
-              <option value="easy">Легко</option>
-              <option value="medium">Середньо</option>
-              <option value="hard">Складно</option>
-            </select>
-          </div>
+          <Select
+            label="Складність:"
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+          >
+            <option value="easy">Легко</option>
+            <option value="medium">Середньо</option>
+            <option value="hard">Складно</option>
+          </Select>
         )}
 
-        <div className={styles.field}>
-          <label>Режим часу:</label>
-          <select
-            value={timerMode}
-            onChange={(e) => setTimerMode(e.target.value)}
-          >
-            <option value="none">Без обмежень</option>
-            <option value="limit">З обмеженням</option>
-          </select>
-        </div>
+        <Select
+          label="Режим часу:"
+          value={timerMode}
+          onChange={(e) => setTimerMode(e.target.value)}
+        >
+          <option value="none">Без обмежень</option>
+          <option value="limit">З обмеженням</option>
+        </Select>
 
         {timerMode === "limit" && (
           <div className={styles.field}>
@@ -80,8 +86,9 @@ export default function MenuPage() {
           </div>
         )}
 
-        <Button icon="🎮" text="Почати гру" onClick={startGame} />
+        <Button icon="🎮" text="Почати гру" onClick={startGameHandler} />
       </div>
     </div>
   );
 }
+

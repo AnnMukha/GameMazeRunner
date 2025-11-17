@@ -1,4 +1,7 @@
+// src/pages/GamePage.jsx
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Header from "../components/Header";
 import MazeGrid from "../components/MazeGrid";
 import Button from "../components/Button";
@@ -7,34 +10,34 @@ import GameOverModal from "../components/GameOverModal";
 import { useMaze } from "../hooks/useMaze";
 import { usePlayer } from "../hooks/usePlayer";
 import { useTimer } from "../hooks/useTimer";
-import { useGameState } from "../hooks/useGameState";
-import { useGameSettings } from "../hooks/GameSettingsContext";
 
-import { useNavigate, useParams } from "react-router-dom";
-import styles from "../styles/GamePage.module.css"; // 🔥 модульні стилі
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectGameState,
+  nextLevel as nextLevelAction,
+  completeLevel as completeLevelAction,
+  goToFinalResults as goToFinalResultsAction,
+  resetAll as resetAllAction,
+} from "../store/gameStateSlice";
+import { selectSettings } from "../store/gameSettingsSlice";
+
+import styles from "../styles/GamePage.module.css";
 
 export default function GamePage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const {
-    level,
-    difficulty,
-    nextLevel,
-    completeLevel,
-    goToFinalResults,
-    resetAll,
-  } = useGameState();
+  const dispatch = useDispatch();
 
-  const { settings } = useGameSettings();
+  const { level, difficulty } = useSelector(selectGameState);
+  const settings = useSelector(selectSettings);
 
   const [seed, setSeed] = useState(Date.now());
   const [isOver, setIsOver] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
   const [attemptsLeft, setAttemptsLeft] = useState(3);
-  const [finishLocked, setFinishLocked] = useState(false); // 🔒 анти-дубль
+  const [finishLocked, setFinishLocked] = useState(false);
 
-  // --- ACTIVE DIFFICULTY ---
   const activeDifficulty =
     settings.mode === "custom" ? settings.difficulty : difficulty;
 
@@ -42,78 +45,72 @@ export default function GamePage() {
     activeDifficulty === "easy" ? 5 :
     activeDifficulty === "medium" ? 7 : 9;
 
-  // --- MAZE ---
   const { maze } = useMaze(size, activeDifficulty, seed);
 
-  // --- PLAYER ---
   const { position, moveUp, moveDown, moveLeft, moveRight } = usePlayer(
     maze,
     () => handleFinish(),
     seed
   );
 
-  // --- TIMER ---
   const { seconds, reset, formatTime } = useTimer(!isOver);
 
-  // --- EXIT RULES ---
   const onExit = () => {
     if (settings.timerMode === "none") {
-      goToFinalResults();
+      dispatch(goToFinalResultsAction());
       navigate(`/user/${id}/result`);
     } else {
-      resetAll();
+      dispatch(resetAllAction());
       navigate(`/user/${id}/menu`);
     }
   };
 
-    // --- EXIT TO MENU (звичайний вихід) ---
-    const goToMenu = () => {
-      resetAll();
-      navigate(`/user/${id}/menu`);
-    };
+  const goToMenu = () => {
+    dispatch(resetAllAction());
+    navigate(`/user/${id}/menu`);
+  };
 
-    // --- GO TO RESULTS (фінальний екран) ---
-    const goToResults = () => {
-      goToFinalResults();   // зберігаємо фінальний результат
-      navigate(`/user/${id}/result`);
-    };
+  const goToResults = () => {
+    dispatch(goToFinalResultsAction());
+    navigate(`/user/${id}/result`);
+  };
 
-  // --- TIMER FAIL CHECK ---
   useEffect(() => {
     if (
       settings.timerMode === "limit" &&
-      seconds >= settings.timeLimit
+      seconds >= settings.timeLimit &&
+      !isOver
     ) {
       handleFail();
     }
-  }, [seconds, settings]);
+  }, [seconds, settings, isOver]);
 
+  const handleFinish = () => {
+    if (finishLocked) return;
+    setFinishLocked(true);
 
-// --- FINISH ---
-const handleFinish = () => {
-  if (finishLocked) return;
-  setFinishLocked(true);
+    setIsOver(true);
+    setIsFailed(false);
 
-  setIsOver(true);
-  setIsFailed(false);
+    const timeResult =
+      settings.timerMode === "limit"
+        ? `${Math.max(settings.timeLimit - seconds, 0)}s`
+        : formatTime();
 
-  // 🔥 Записуємо результат для обох режимів
-  const timeResult =
-    settings.timerMode === "limit"
-      ? `${settings.timeLimit - seconds}s`
-      : formatTime();
+    dispatch(
+      completeLevelAction({
+        difficulty: activeDifficulty,
+        time: timeResult,
+      })
+    );
+  };
 
-  completeLevel(activeDifficulty, timeResult);
-};
-
-  // --- FAIL ---
   const handleFail = () => {
     setIsOver(true);
     setIsFailed(true);
     setAttemptsLeft((prev) => prev - 1);
   };
 
-  // --- RESTART SAME LEVEL ---
   const restart = () => {
     setFinishLocked(false);
     setIsOver(false);
@@ -122,12 +119,11 @@ const handleFinish = () => {
     setSeed(Date.now() + Math.random() * 999999);
   };
 
-  // --- NEXT LEVEL ---
   const next = () => {
     if (level === 6) return;
 
     setFinishLocked(false);
-    nextLevel();
+    dispatch(nextLevelAction());
     reset();
 
     setIsOver(false);
@@ -135,12 +131,12 @@ const handleFinish = () => {
     setSeed(Date.now() + Math.random() * 999999);
   };
 
+  const isFinalLevel = level === 6;
+
   return (
     <div className={styles.gameWrapper}>
-      {/* === HEADER === */}
       <Header title={`Level ${level} — ${activeDifficulty}`} />
 
-      {/* === TIMER === */}
       <div className={styles.timer}>
         {settings.timerMode === "limit" ? (
           <p>⏳ Час: {Math.max(settings.timeLimit - seconds, 0)}s</p>
@@ -149,38 +145,31 @@ const handleFinish = () => {
         )}
       </div>
 
-      {/* === MAZE === */}
       <div className={styles.mazeBox}>
         <MazeGrid maze={maze} playerPosition={position} />
       </div>
 
-      {/* === CONTROLS === */}
       <div className={styles.controls}>
-  <Button icon="⬆️" onClick={moveUp} />
+        <Button icon="⬆️" onClick={moveUp} />
 
-  <div className={styles.middleRow}>
-    <Button icon="⬅️" onClick={moveLeft} />
-    <Button icon="⬇️" onClick={moveDown} />
-    <Button icon="➡️" onClick={moveRight} />
-  </div>
-</div>
+        <div className={styles.middleRow}>
+          <Button icon="⬅️" onClick={moveLeft} />
+          <Button icon="⬇️" onClick={moveDown} />
+          <Button icon="➡️" onClick={moveRight} />
+        </div>
+      </div>
 
-
-
-      {/* === WIN MODAL === */}
       {isOver && !isFailed && (
         <GameOverModal
-          isFinal={level === 6}
+          isFinal={isFinalLevel}
           timerMode={settings.timerMode}
           onRestart={settings.timerMode === "limit" ? null : restart}
-          onNext={level === 6 ? null : next}
-          onExit={onExit}
+          onNext={isFinalLevel ? null : next}
           onMenu={goToMenu}
           onResults={goToResults}
         />
       )}
 
-      {/* === FAIL MODAL === */}
       {isFailed && (
         <div className={`${styles.failModal} animate-fade`}>
           <h2>⏰ Час вийшов!</h2>
