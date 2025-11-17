@@ -1,3 +1,4 @@
+// src/pages/ResultPage.jsx
 import React from "react";
 import styles from "../styles/ResultPage.module.css";
 import Button from "../components/Button";
@@ -5,7 +6,7 @@ import { useGameState } from "../hooks/useGameState";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function ResultPage() {
-  const { results, resetAll } = useGameState();
+  const { records, resetAll } = useGameState();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -14,19 +15,19 @@ export default function ResultPage() {
     navigate(`/user/${id}/menu`);
   };
 
-  // 🔥 ГАРАНТОВАНИЙ ЗАХИСТ — навіть якщо results undefined
-  const safeResults = Array.isArray(results) ? results : [];
+  // Гарантуємо, що records завжди масив
+  const safeRecords = Array.isArray(records) ? records : [];
 
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Результати гри</h1>
 
       <div className={styles.resultBox}>
-        {safeResults.length === 0 ? (
+        {safeRecords.length === 0 ? (
           <p className={styles.noResults}>Результатів поки немає</p>
         ) : (
           <div className={styles.list}>
-            {safeResults.map((item, index) => (
+            {safeRecords.map((item, index) => (
               <div key={index} className={styles.row}>
                 <span className={styles.level}>Рівень {item.level}</span>
 
@@ -36,9 +37,7 @@ export default function ResultPage() {
                   {item.difficulty === "hard" && "Складно"}
                 </span>
 
-                <span className={styles.time}>
-                  {item.time}
-                </span>
+                <span className={styles.time}>{item.time}</span>
               </div>
             ))}
           </div>
@@ -51,3 +50,4 @@ export default function ResultPage() {
     </div>
   );
 }
+
