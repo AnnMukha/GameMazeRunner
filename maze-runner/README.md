@@ -83,16 +83,37 @@ Run tests:
 npm test
 ```
 
-## Planned Final-Project Artifacts
+Generate local technical documentation:
 
-The following files and tools are part of the final submission and will be added in the next commits on this branch:
+```bash
+npm run docs:generate
+```
+
+Run Storybook locally:
+
+```bash
+npm run storybook
+```
+
+Build static Storybook output:
+
+```bash
+npm run build-storybook
+```
+
+Generate the third-party license report:
+
+```bash
+npm run licenses:report
+```
+
+## Final Project Artifacts
 
 - [LICENSE](./LICENSE)
-- dependency license report in the project root
-- [PRIVACY_POLICY.md](./PRIVACY_POLICY.md) or equivalent usage policy
-- generated local documentation
-- Storybook with documented components
-- video walkthrough for local documentation
+- [THIRD_PARTY_LICENSES.md](./THIRD_PARTY_LICENSES.md)
+- [PRIVACY_POLICY.md](./PRIVACY_POLICY.md)
+- generated local documentation at [docs/index.html](./docs/index.html)
+- Storybook stories for `Button` and `GameOverModal`
 
 ## Author
 
