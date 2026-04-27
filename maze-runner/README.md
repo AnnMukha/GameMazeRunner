@@ -113,6 +113,7 @@ npm run licenses:report
 - [THIRD_PARTY_LICENSES.md](./THIRD_PARTY_LICENSES.md)
 - [PRIVACY_POLICY.md](./PRIVACY_POLICY.md)
 - generated local documentation at [docs/index.html](./docs/index.html)
+- documentation video at [docs-video/documentation-demo.mov](./docs-video/documentation-demo.mov)
 - Storybook stories for `Button` and `GameOverModal`
 
 ## Author
