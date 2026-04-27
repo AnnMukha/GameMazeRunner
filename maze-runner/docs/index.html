@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maze Runner Documentation</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07111f;
+        --panel: rgba(10, 18, 34, 0.84);
+        --panel-2: rgba(18, 28, 50, 0.92);
+        --line: rgba(133, 214, 255, 0.22);
+        --text: #f5f9ff;
+        --muted: #a4b7cf;
+        --accent: #7ae3ff;
+        --accent-2: #87a8ff;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(80, 175, 255, 0.16), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(116, 255, 214, 0.14), transparent 28%),
+          var(--bg);
+      }
+
+      .shell {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 56px;
+      }
+
+      .hero,
+      .section {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+      }
+
+      .hero {
+        padding: 32px;
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--accent);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+
+      h1, h2, h3 {
+        margin: 0;
+      }
+
+      .lead {
+        margin: 14px 0 0;
+        max-width: 820px;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        margin-top: 26px;
+      }
+
+      .metric {
+        padding: 16px 18px;
+        border-radius: 20px;
+        background: var(--panel-2);
+        border: 1px solid rgba(146, 215, 255, 0.14);
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 1.2rem;
+      }
+
+      .section {
+        padding: 28px;
+        margin-bottom: 20px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+        margin-bottom: 18px;
+      }
+
+      .section-header p,
+      .muted {
+        color: var(--muted);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 18px;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(148, 205, 255, 0.12);
+      }
+
+      th {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 22px;
+        background: var(--panel-2);
+        border: 1px solid rgba(148, 216, 255, 0.12);
+      }
+
+      .card p {
+        line-height: 1.6;
+        color: var(--muted);
+      }
+
+      .badge {
+        display: inline-block;
+        margin: 0 0 10px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(122, 227, 255, 0.12);
+        color: var(--accent);
+      }
+
+      dl {
+        display: grid;
+        gap: 8px;
+        margin: 16px 0 0;
+      }
+
+      dt {
+        color: var(--accent-2);
+        font-weight: 600;
+      }
+
+      dd {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      code {
+        font-family: "SFMono-Regular", Consolas, monospace;
+      }
+
+      @media (max-width: 720px) {
+        .shell {
+          width: min(100% - 20px, 1180px);
+          padding-top: 20px;
+        }
+
+        .hero,
+        .section {
+          padding: 20px;
+          border-radius: 22px;
+        }
+
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Generated local documentation</p>
+        <h1>Maze Runner Technical Overview</h1>
+        <p class="lead">
+          This documentation page is generated from the current project structure, source files, package metadata,
+          and route configuration. It summarizes the application architecture for local review and project submission.
+        </p>
+        <div class="hero-grid">
+          <div class="metric">
+            Project
+            <strong>maze-runner@0.1.0</strong>
+          </div>
+          <div class="metric">
+            Source modules
+            <strong>24</strong>
+          </div>
+          <div class="metric">
+            Routes
+            <strong>6</strong>
+          </div>
+          <div class="metric">
+            Generated at
+            <strong>2026-04-27T06:54:01.773Z</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Available Scripts</h2>
+          <p>6 script(s)</p>
+        </div>
+        <div class="grid">
+          
+                <article class="card">
+                  <h3><code>npm run start</code></h3>
+                  <p>react-scripts start</p>
+                </article>
+              
+
+                <article class="card">
+                  <h3><code>npm run build</code></h3>
+                  <p>react-scripts build</p>
+                </article>
+              
+
+                <article class="card">
+                  <h3><code>npm run test</code></h3>
+                  <p>react-scripts test</p>
+                </article>
+              
+
+                <article class="card">
+                  <h3><code>npm run docs:generate</code></h3>
+                  <p>node scripts/generate-docs.js</p>
+                </article>
+              
+
+                <article class="card">
+                  <h3><code>npm run licenses:report</code></h3>
+                  <p>node scripts/generate-license-report.js</p>
+                </article>
+              
+
+                <article class="card">
+                  <h3><code>npm run eject</code></h3>
+                  <p>react-scripts eject</p>
+                </article>
+              
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Route Map</h2>
+          <p>Derived from <code>src/App.js</code></p>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Path</th>
+              <th>Component</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+      <tr>
+        <td><code>/</code></td>
+        <td>Navigate</td>
+      </tr>
+    
+
+      <tr>
+        <td><code>/user/:id/start</code></td>
+        <td>StartPage</td>
+      </tr>
+    
+
+      <tr>
+        <td><code>/user/:id/menu</code></td>
+        <td>MenuPage</td>
+      </tr>
+    
+
+      <tr>
+        <td><code>/user/:id/game</code></td>
+        <td>GamePage</td>
+      </tr>
+    
+
+      <tr>
+        <td><code>/user/:id/result</code></td>
+        <td>ResultPage</td>
+      </tr>
+    
+
+      <tr>
+        <td><code>*</code></td>
+        <td>Navigate</td>
+      </tr>
+    
+          </tbody>
+        </table>
+      </section>
+
+      
+      <section class="section">
+        <div class="section-header">
+          <h2>root</h2>
+          <p>2 documented module(s)</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <p class="badge">root</p>
+            <h3>App.js</h3>
+            <p>Top-level router that controls the main game flow and renders the GDPR consent UI.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/App.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>App</code></dd>
+              <dt>Imports</dt>
+              <dd>6</dd>
+              <dt>Lines</dt>
+              <dd>29</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">root</p>
+            <h3>index.js</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/index.js</code></dd>
+              <dt>Exports</dt>
+              <dd><span class="muted">No named exports detected</span></dd>
+              <dt>Imports</dt>
+              <dd>6</dd>
+              <dt>Lines</dt>
+              <dd>20</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+    
+
+      <section class="section">
+        <div class="section-header">
+          <h2>components</h2>
+          <p>10 documented module(s)</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>Button.jsx</h3>
+            <p>Reusable neon-styled action button used across gameplay and menus.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/Button.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>Button</code></dd>
+              <dt>Imports</dt>
+              <dd>1</dd>
+              <dt>Lines</dt>
+              <dd>11</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>Controls.jsx</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/Controls.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>Controls</code></dd>
+              <dt>Imports</dt>
+              <dd>2</dd>
+              <dt>Lines</dt>
+              <dd>22</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>CookieConsentBanner.jsx</h3>
+            <p>GDPR-oriented cookie and local-storage consent banner with configurable categories.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/CookieConsentBanner.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>CookieConsentBanner</code></dd>
+              <dt>Imports</dt>
+              <dd>3</dd>
+              <dt>Lines</dt>
+              <dd>175</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>GameOverModal.jsx</h3>
+            <p>Complex UI component for end-of-level actions such as restarting, continuing, or finishing the run.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/GameOverModal.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>GameOverModal</code></dd>
+              <dt>Imports</dt>
+              <dd>3</dd>
+              <dt>Lines</dt>
+              <dd>42</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>Header.jsx</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/Header.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>Header</code></dd>
+              <dt>Imports</dt>
+              <dd>0</dd>
+              <dt>Lines</dt>
+              <dd>4</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>MazeGrid.jsx</h3>
+            <p>Visual grid renderer for maze cells and the player's current position.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/MazeGrid.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>MazeGrid</code></dd>
+              <dt>Imports</dt>
+              <dd>1</dd>
+              <dt>Lines</dt>
+              <dd>42</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>Player.jsx</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/Player.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>Player</code></dd>
+              <dt>Imports</dt>
+              <dd>0</dd>
+              <dt>Lines</dt>
+              <dd>14</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>TimerBox.jsx</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/TimerBox.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>TimerBox</code></dd>
+              <dt>Imports</dt>
+              <dd>2</dd>
+              <dt>Lines</dt>
+              <dd>17</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>Modal.jsx</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/ui/Modal.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>Modal</code></dd>
+              <dt>Imports</dt>
+              <dd>3</dd>
+              <dt>Lines</dt>
+              <dd>14</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">components</p>
+            <h3>Select.jsx</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/components/ui/Select.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>Select</code></dd>
+              <dt>Imports</dt>
+              <dd>1</dd>
+              <dt>Lines</dt>
+              <dd>13</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+    
+
+      <section class="section">
+        <div class="section-header">
+          <h2>hooks</h2>
+          <p>3 documented module(s)</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <p class="badge">hooks</p>
+            <h3>useMaze.js</h3>
+            <p>Generates solvable mazes based on size, difficulty, and a seed-driven random generator.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/hooks/useMaze.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>useMaze</code></dd>
+              <dt>Imports</dt>
+              <dd>1</dd>
+              <dt>Lines</dt>
+              <dd>106</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">hooks</p>
+            <h3>usePlayer.js</h3>
+            <p>Encapsulates player position state and movement rules inside the maze.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/hooks/usePlayer.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>usePlayer</code></dd>
+              <dt>Imports</dt>
+              <dd>1</dd>
+              <dt>Lines</dt>
+              <dd>39</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">hooks</p>
+            <h3>useTimer.js</h3>
+            <p>Provides stopwatch-style timing for free play and limit-based game modes.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/hooks/useTimer.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>useTimer</code></dd>
+              <dt>Imports</dt>
+              <dd>1</dd>
+              <dt>Lines</dt>
+              <dd>20</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+    
+
+      <section class="section">
+        <div class="section-header">
+          <h2>pages</h2>
+          <p>5 documented module(s)</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <p class="badge">pages</p>
+            <h3>GamePage.jsx</h3>
+            <p>Core gameplay screen that connects maze generation, player movement, timer logic, and level progression.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/pages/GamePage.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>GamePage</code></dd>
+              <dt>Imports</dt>
+              <dd>13</dd>
+              <dt>Lines</dt>
+              <dd>193</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">pages</p>
+            <h3>MenuPage.jsx</h3>
+            <p>Configuration page for selecting mode, difficulty, and timer behavior before the game starts.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/pages/MenuPage.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>MenuPage</code></dd>
+              <dt>Imports</dt>
+              <dd>7</dd>
+              <dt>Lines</dt>
+              <dd>95</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">pages</p>
+            <h3>ResultPage.jsx</h3>
+            <p>Summary screen that lists completed level records and returns the user to the menu.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/pages/ResultPage.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>ResultPage</code></dd>
+              <dt>Imports</dt>
+              <dd>6</dd>
+              <dt>Lines</dt>
+              <dd>57</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">pages</p>
+            <h3>SettingsPage.jsx</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/pages/SettingsPage.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>SettingsPage</code></dd>
+              <dt>Imports</dt>
+              <dd>3</dd>
+              <dt>Lines</dt>
+              <dd>77</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">pages</p>
+            <h3>StartPage.jsx</h3>
+            <p>Intro screen that redirects players into the main gameplay flow.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/pages/StartPage.jsx</code></dd>
+              <dt>Exports</dt>
+              <dd><code>StartPage</code></dd>
+              <dt>Imports</dt>
+              <dd>3</dd>
+              <dt>Lines</dt>
+              <dd>29</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+    
+
+      <section class="section">
+        <div class="section-header">
+          <h2>store</h2>
+          <p>3 documented module(s)</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <p class="badge">store</p>
+            <h3>gameSettingsSlice.js</h3>
+            <p>Stores configurable game settings and optional local persistence guarded by consent preferences.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/store/gameSettingsSlice.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>selectSettings</code> <code>selectStats</code></dd>
+              <dt>Imports</dt>
+              <dd>2</dd>
+              <dt>Lines</dt>
+              <dd>86</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">store</p>
+            <h3>gameStateSlice.js</h3>
+            <p>Stores current level progress, difficulty progression, and in-memory gameplay records.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/store/gameStateSlice.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>selectGameState</code></dd>
+              <dt>Imports</dt>
+              <dd>1</dd>
+              <dt>Lines</dt>
+              <dd>74</dd>
+            </dl>
+          </article>
+        
+
+          <article class="card">
+            <p class="badge">store</p>
+            <h3>store.js</h3>
+            <p>Redux Toolkit store configuration that combines the gameplay and settings slices.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/store/store.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>store</code></dd>
+              <dt>Imports</dt>
+              <dd>3</dd>
+              <dt>Lines</dt>
+              <dd>12</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+    
+
+      <section class="section">
+        <div class="section-header">
+          <h2>utils</h2>
+          <p>1 documented module(s)</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <p class="badge">utils</p>
+            <h3>consent.js</h3>
+            <p>Internal source module included in the Maze Runner application.</p>
+            <dl>
+              <dt>Path</dt>
+              <dd><code>src/utils/consent.js</code></dd>
+              <dt>Exports</dt>
+              <dd><code>getDefaultConsent</code> <code>readConsent</code> <code>saveConsent</code> <code>hasPreferencesConsent</code> <code>clearOptionalGameStorage</code> <code>clearOptionalStats</code></dd>
+              <dt>Imports</dt>
+              <dd>0</dd>
+              <dt>Lines</dt>
+              <dd>62</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+    
+    </main>
+  </body>
+</html>

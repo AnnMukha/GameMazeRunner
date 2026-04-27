@@ -21,6 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "docs:generate": "node scripts/generate-docs.js",
     "licenses:report": "node scripts/generate-license-report.js",
     "eject": "react-scripts eject"
   },

@@ -1,0 +1,326 @@
+{
+  "generatedAt": "2026-04-27T06:54:01.773Z",
+  "project": {
+    "name": "maze-runner",
+    "version": "0.1.0",
+    "dependencies": [
+      "@reduxjs/toolkit",
+      "@testing-library/dom",
+      "@testing-library/jest-dom",
+      "@testing-library/react",
+      "@testing-library/user-event",
+      "formik",
+      "react",
+      "react-dom",
+      "react-redux",
+      "react-router-dom",
+      "react-scripts",
+      "web-vitals",
+      "yup"
+    ],
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "docs:generate": "node scripts/generate-docs.js",
+      "licenses:report": "node scripts/generate-license-report.js",
+      "eject": "react-scripts eject"
+    }
+  },
+  "routes": [
+    {
+      "path": "/",
+      "element": "Navigate"
+    },
+    {
+      "path": "/user/:id/start",
+      "element": "StartPage"
+    },
+    {
+      "path": "/user/:id/menu",
+      "element": "MenuPage"
+    },
+    {
+      "path": "/user/:id/game",
+      "element": "GamePage"
+    },
+    {
+      "path": "/user/:id/result",
+      "element": "ResultPage"
+    },
+    {
+      "path": "*",
+      "element": "Navigate"
+    }
+  ],
+  "modules": [
+    {
+      "path": "src/App.js",
+      "name": "App.js",
+      "category": "root",
+      "description": "Top-level router that controls the main game flow and renders the GDPR consent UI.",
+      "exports": [
+        "App"
+      ],
+      "importCount": 6,
+      "lineCount": 29
+    },
+    {
+      "path": "src/components/Button.jsx",
+      "name": "Button.jsx",
+      "category": "components",
+      "description": "Reusable neon-styled action button used across gameplay and menus.",
+      "exports": [
+        "Button"
+      ],
+      "importCount": 1,
+      "lineCount": 11
+    },
+    {
+      "path": "src/components/Controls.jsx",
+      "name": "Controls.jsx",
+      "category": "components",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "Controls"
+      ],
+      "importCount": 2,
+      "lineCount": 22
+    },
+    {
+      "path": "src/components/CookieConsentBanner.jsx",
+      "name": "CookieConsentBanner.jsx",
+      "category": "components",
+      "description": "GDPR-oriented cookie and local-storage consent banner with configurable categories.",
+      "exports": [
+        "CookieConsentBanner"
+      ],
+      "importCount": 3,
+      "lineCount": 175
+    },
+    {
+      "path": "src/components/GameOverModal.jsx",
+      "name": "GameOverModal.jsx",
+      "category": "components",
+      "description": "Complex UI component for end-of-level actions such as restarting, continuing, or finishing the run.",
+      "exports": [
+        "GameOverModal"
+      ],
+      "importCount": 3,
+      "lineCount": 42
+    },
+    {
+      "path": "src/components/Header.jsx",
+      "name": "Header.jsx",
+      "category": "components",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "Header"
+      ],
+      "importCount": 0,
+      "lineCount": 4
+    },
+    {
+      "path": "src/components/MazeGrid.jsx",
+      "name": "MazeGrid.jsx",
+      "category": "components",
+      "description": "Visual grid renderer for maze cells and the player's current position.",
+      "exports": [
+        "MazeGrid"
+      ],
+      "importCount": 1,
+      "lineCount": 42
+    },
+    {
+      "path": "src/components/Player.jsx",
+      "name": "Player.jsx",
+      "category": "components",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "Player"
+      ],
+      "importCount": 0,
+      "lineCount": 14
+    },
+    {
+      "path": "src/components/TimerBox.jsx",
+      "name": "TimerBox.jsx",
+      "category": "components",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "TimerBox"
+      ],
+      "importCount": 2,
+      "lineCount": 17
+    },
+    {
+      "path": "src/components/ui/Modal.jsx",
+      "name": "Modal.jsx",
+      "category": "components",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "Modal"
+      ],
+      "importCount": 3,
+      "lineCount": 14
+    },
+    {
+      "path": "src/components/ui/Select.jsx",
+      "name": "Select.jsx",
+      "category": "components",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "Select"
+      ],
+      "importCount": 1,
+      "lineCount": 13
+    },
+    {
+      "path": "src/hooks/useMaze.js",
+      "name": "useMaze.js",
+      "category": "hooks",
+      "description": "Generates solvable mazes based on size, difficulty, and a seed-driven random generator.",
+      "exports": [
+        "useMaze"
+      ],
+      "importCount": 1,
+      "lineCount": 106
+    },
+    {
+      "path": "src/hooks/usePlayer.js",
+      "name": "usePlayer.js",
+      "category": "hooks",
+      "description": "Encapsulates player position state and movement rules inside the maze.",
+      "exports": [
+        "usePlayer"
+      ],
+      "importCount": 1,
+      "lineCount": 39
+    },
+    {
+      "path": "src/hooks/useTimer.js",
+      "name": "useTimer.js",
+      "category": "hooks",
+      "description": "Provides stopwatch-style timing for free play and limit-based game modes.",
+      "exports": [
+        "useTimer"
+      ],
+      "importCount": 1,
+      "lineCount": 20
+    },
+    {
+      "path": "src/index.js",
+      "name": "index.js",
+      "category": "root",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [],
+      "importCount": 6,
+      "lineCount": 20
+    },
+    {
+      "path": "src/pages/GamePage.jsx",
+      "name": "GamePage.jsx",
+      "category": "pages",
+      "description": "Core gameplay screen that connects maze generation, player movement, timer logic, and level progression.",
+      "exports": [
+        "GamePage"
+      ],
+      "importCount": 13,
+      "lineCount": 193
+    },
+    {
+      "path": "src/pages/MenuPage.jsx",
+      "name": "MenuPage.jsx",
+      "category": "pages",
+      "description": "Configuration page for selecting mode, difficulty, and timer behavior before the game starts.",
+      "exports": [
+        "MenuPage"
+      ],
+      "importCount": 7,
+      "lineCount": 95
+    },
+    {
+      "path": "src/pages/ResultPage.jsx",
+      "name": "ResultPage.jsx",
+      "category": "pages",
+      "description": "Summary screen that lists completed level records and returns the user to the menu.",
+      "exports": [
+        "ResultPage"
+      ],
+      "importCount": 6,
+      "lineCount": 57
+    },
+    {
+      "path": "src/pages/SettingsPage.jsx",
+      "name": "SettingsPage.jsx",
+      "category": "pages",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "SettingsPage"
+      ],
+      "importCount": 3,
+      "lineCount": 77
+    },
+    {
+      "path": "src/pages/StartPage.jsx",
+      "name": "StartPage.jsx",
+      "category": "pages",
+      "description": "Intro screen that redirects players into the main gameplay flow.",
+      "exports": [
+        "StartPage"
+      ],
+      "importCount": 3,
+      "lineCount": 29
+    },
+    {
+      "path": "src/store/gameSettingsSlice.js",
+      "name": "gameSettingsSlice.js",
+      "category": "store",
+      "description": "Stores configurable game settings and optional local persistence guarded by consent preferences.",
+      "exports": [
+        "selectSettings",
+        "selectStats"
+      ],
+      "importCount": 2,
+      "lineCount": 86
+    },
+    {
+      "path": "src/store/gameStateSlice.js",
+      "name": "gameStateSlice.js",
+      "category": "store",
+      "description": "Stores current level progress, difficulty progression, and in-memory gameplay records.",
+      "exports": [
+        "selectGameState"
+      ],
+      "importCount": 1,
+      "lineCount": 74
+    },
+    {
+      "path": "src/store/store.js",
+      "name": "store.js",
+      "category": "store",
+      "description": "Redux Toolkit store configuration that combines the gameplay and settings slices.",
+      "exports": [
+        "store"
+      ],
+      "importCount": 3,
+      "lineCount": 12
+    },
+    {
+      "path": "src/utils/consent.js",
+      "name": "consent.js",
+      "category": "utils",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "getDefaultConsent",
+        "readConsent",
+        "saveConsent",
+        "hasPreferencesConsent",
+        "clearOptionalGameStorage",
+        "clearOptionalStats"
+      ],
+      "importCount": 0,
+      "lineCount": 62
+    }
+  ]
+}
