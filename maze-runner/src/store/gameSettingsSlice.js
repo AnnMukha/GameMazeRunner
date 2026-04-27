@@ -1,7 +1,13 @@
 // src/store/gameSettingsSlice.js
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  clearOptionalStats,
+  hasPreferencesConsent,
+} from "../utils/consent";
 
 const loadSettings = () => {
+  if (!hasPreferencesConsent()) return null;
+
   try {
     const raw = localStorage.getItem("mazeSettings");
     if (!raw) return null;
@@ -12,6 +18,8 @@ const loadSettings = () => {
 };
 
 const loadStats = () => {
+  if (!hasPreferencesConsent()) return [];
+
   try {
     const raw = localStorage.getItem("mazeStats");
     if (!raw) return [];
@@ -43,7 +51,10 @@ const gameSettingsSlice = createSlice({
         ...state.settings,
         ...action.payload,
       };
-      localStorage.setItem("mazeSettings", JSON.stringify(state.settings));
+
+      if (hasPreferencesConsent()) {
+        localStorage.setItem("mazeSettings", JSON.stringify(state.settings));
+      }
     },
     addResult(state, action) {
       const { difficulty, time } = action.payload;
@@ -53,11 +64,14 @@ const gameSettingsSlice = createSlice({
         date: new Date().toISOString(),
       };
       state.stats.push(newEntry);
-      localStorage.setItem("mazeStats", JSON.stringify(state.stats));
+
+      if (hasPreferencesConsent()) {
+        localStorage.setItem("mazeStats", JSON.stringify(state.stats));
+      }
     },
     clearStats(state) {
       state.stats = [];
-      localStorage.removeItem("mazeStats");
+      clearOptionalStats();
     },
   },
 });

@@ -5,6 +5,7 @@ import StartPage from "./pages/StartPage";
 import MenuPage from "./pages/MenuPage";
 import GamePage from "./pages/GamePage";
 import ResultPage from "./pages/ResultPage";
+import CookieConsentBanner from "./components/CookieConsentBanner";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         {/* 404 */}
         <Route path="*" element={<Navigate to="/user/1/start" replace />} />
       </Routes>
+      <CookieConsentBanner />
     </Router>
   );
 }
