@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T06:54:01.773Z",
+  "generatedAt": "2026-04-27T07:37:41.466Z",
   "project": {
     "name": "maze-runner",
     "version": "0.1.0",
@@ -24,7 +24,9 @@
       "test": "react-scripts test",
       "docs:generate": "node scripts/generate-docs.js",
       "licenses:report": "node scripts/generate-license-report.js",
-      "eject": "react-scripts eject"
+      "eject": "react-scripts eject",
+      "storybook": "storybook dev -p 6006",
+      "build-storybook": "storybook build"
     }
   },
   "routes": [
@@ -305,6 +307,32 @@
       ],
       "importCount": 3,
       "lineCount": 12
+    },
+    {
+      "path": "src/stories/Button.stories.js",
+      "name": "Button.stories.js",
+      "category": "stories",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "PrimaryAction",
+        "Navigation",
+        "IconOnly"
+      ],
+      "importCount": 2,
+      "lineCount": 49
+    },
+    {
+      "path": "src/stories/GameOverModal.stories.jsx",
+      "name": "GameOverModal.stories.jsx",
+      "category": "stories",
+      "description": "Internal source module included in the Maze Runner application.",
+      "exports": [
+        "StandardCompletion",
+        "TimedCompletion",
+        "FinalLevel"
+      ],
+      "importCount": 2,
+      "lineCount": 69
     },
     {
       "path": "src/utils/consent.js",

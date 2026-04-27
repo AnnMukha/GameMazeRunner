@@ -122,4 +122,4 @@ npm run licenses:report
 
 ## License
 
-The license for the project code will be published in [LICENSE](./LICENSE). Third-party dependency licenses will be verified and committed as a separate report file in the repository root.
+The project code is licensed under [LICENSE](./LICENSE). Third-party dependency licenses are verified and committed as [THIRD_PARTY_LICENSES.md](./THIRD_PARTY_LICENSES.md) in the repository root.
